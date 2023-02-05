@@ -1,6 +1,9 @@
 package com.github.simulatan;
 
+import com.github.simulatan.uncover.UncoverMode;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -19,6 +22,8 @@ public class FxmlDocumentController {
 	public Button btnStart;
 	@FXML
 	public Label labelPath;
+	@FXML
+	public ComboBox<UncoverMode> uncoverMode;
 	private ImageDiscoverer discoverer;
 
 
@@ -28,7 +33,7 @@ public class FxmlDocumentController {
 			return;
 		}
 
-		discoverer.reveal();
+		discoverer.reveal(uncoverMode.getValue());
 	}
 
 

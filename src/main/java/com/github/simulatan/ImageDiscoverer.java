@@ -15,8 +15,6 @@ public class ImageDiscoverer {
 	private final PixelWriter pixelWriter;
 	private final PixelReader pixelReader;
 
-	private final UncoverMode uncoverMode = UncoverMode.CIRCULAR_TO_CENTER;
-
 	private Thread thread;
 
 	public ImageDiscoverer(Image srcImage) {
@@ -41,12 +39,13 @@ public class ImageDiscoverer {
 		}
 	}
 
-	public void reveal() {
+	public void reveal(UncoverMode uncoverMode) {
 		initializeDestImage();
 		if (thread != null) {
 			thread.interrupt();
 		}
-		thread = new Thread(() -> this.uncoverMode.uncover(width, height, pixelReader, pixelWriter));
+		thread = new Thread(() -> uncoverMode.uncover(width, height, pixelReader, pixelWriter));
+		thread.setDaemon(true);
 		thread.start();
 	}
 }

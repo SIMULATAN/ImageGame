@@ -9,6 +9,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import com.github.simulatan.uncover.UncoverMode?>
 <BorderPane fx:id="borderPane" maxHeight="-Infinity"
             maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
@@ -32,6 +34,18 @@
                         <Insets />
                     </FlowPane.margin>
                 </Label>
+                <ComboBox fx:id="uncoverMode" prefWidth="100.0">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <UncoverMode fx:constant="LEFT_TO_RIGHT"/>
+                            <UncoverMode fx:constant="CIRCULAR_TO_CENTER"/>
+                            <UncoverMode fx:constant="RANDOM"/>
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <UncoverMode fx:constant="LEFT_TO_RIGHT"/>
+                    </value>
+                </ComboBox>
             </children>
             <BorderPane.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

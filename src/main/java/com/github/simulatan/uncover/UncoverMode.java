@@ -4,6 +4,10 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
 public enum UncoverMode {
 	LEFT_TO_RIGHT(((width, height, pixelReader, pixelWriter) -> {
 		for (int x = 0; x < width; x++) {
@@ -13,24 +17,7 @@ public enum UncoverMode {
 					pixelWriter.setColor(x, y, color);
 				}
 			}
-			Thread.sleep(100);
-		}
-	})),
-	CIRCULAR_FROM_CENTER(((width, height, pixelReader, pixelWriter) -> {
-		int centerX = width / 2;
-		int centerY = height / 2;
-		for (int r = 0; r < Math.min(centerX, centerY); r++) {
-			for (int x = centerX - r; x <= centerX + r; x++) {
-				for (int y = centerY - (int) (r * (double) centerY / centerX); y <= centerY + (int) (r * (double) centerY / centerX); y++) {
-					if (x >= 0 && x < width && y >= 0 && y < height) {
-						Color color = pixelReader.getColor(x, y);
-						if (color.getOpacity() > 0.0) {
-							pixelWriter.setColor(x, y, color);
-						}
-					}
-				}
-			}
-			Thread.sleep(100);
+			Thread.sleep(5000 / width);
 		}
 	})),
 	CIRCULAR_TO_CENTER(((width, height, pixelReader, pixelWriter) -> {
@@ -70,7 +57,7 @@ public enum UncoverMode {
 					}
 				}
 			}
-			Thread.sleep(100);
+			Thread.sleep(5000 / width);
 		}
 
 		// Color the center pixel
@@ -80,14 +67,20 @@ public enum UncoverMode {
 		}
 	})),
 	RANDOM(((width, height, pixelReader, pixelWriter) -> {
-		for (int i = 0; i < width * height; i++) {
-			int x = (int) (Math.random() * width);
-			int y = (int) (Math.random() * height);
-			Color color = pixelReader.getColor(x, y);
-			if (color.getOpacity() > 0.0) {
-				pixelWriter.setColor(x, y, color);
+		Set<Integer> drawnPixels = new HashSet<>();
+		for (int i = 0; i < width * height;) {
+			int x = ThreadLocalRandom.current().nextInt(width);
+			int y = ThreadLocalRandom.current().nextInt(height);
+			int coord = x + y * width;
+			if (!drawnPixels.contains(coord)) {
+				Color color = pixelReader.getColor(x, y);
+				if (color.getOpacity() > 0.0) {
+					pixelWriter.setColor(x, y, color);
+				}
+				drawnPixels.add(coord);
+				i++;
+				Thread.sleep(10000 / (width * height));
 			}
-			Thread.sleep(20);
 		}
 	}));
 
@@ -100,6 +93,6 @@ public enum UncoverMode {
 	public void uncover(int width, int height, PixelReader pixelReader, PixelWriter pixelWriter) {
 		try {
 			uncoverer.uncover(width, height, pixelReader, pixelWriter);
-		} catch (InterruptedException ignored) {}
+		} catch (Exception ignored) {}
 	}
 }

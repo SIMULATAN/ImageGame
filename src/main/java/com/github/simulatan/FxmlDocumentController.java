@@ -1,11 +1,11 @@
 package com.github.simulatan;
 
 import com.github.simulatan.uncover.UncoverMode;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -58,6 +58,7 @@ public class FxmlDocumentController {
 	}
 
 	private void setImage(Image img) {
+		if (discoverer != null) discoverer.shutdown();
 		discoverer = new ImageDiscoverer(img);
 		imageView.setImage(discoverer.getDestImage());
 		btnStart.setDisable(false);

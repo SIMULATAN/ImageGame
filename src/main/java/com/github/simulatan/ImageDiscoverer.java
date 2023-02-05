@@ -48,4 +48,10 @@ public class ImageDiscoverer {
 		thread.setDaemon(true);
 		thread.start();
 	}
+
+	public void shutdown() {
+		if (thread != null) {
+			thread.interrupt();
+		}
+	}
 }

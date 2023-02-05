@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity"
+            maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.simulatan.FxmlDocumentController">
+    <center>
+        <ImageView fx:id="imageView" fitHeight="271.0" fitWidth="552.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <image>
+                <Image url="@bild2.jpg" />
+            </image>
+        </ImageView>
+    </center>
+    <bottom>
+        <FlowPane fx:id="buttonBar" alignment="CENTER" hgap="5.0" prefHeight="30.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="btnStart" mnemonicParsing="false" onAction="#handleStartButton" text="Start" textAlignment="CENTER" />
+                <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#handleLoadButton" text="Load">
+                    <FlowPane.margin>
+                        <Insets />
+                    </FlowPane.margin>
+                </Button>
+                <Label fx:id="labelPath" alignment="CENTER" contentDisplay="CENTER" text="fileName" textAlignment="CENTER">
+                    <FlowPane.margin>
+                        <Insets />
+                    </FlowPane.margin>
+                </Label>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </BorderPane.margin>
+        </FlowPane>
+    </bottom>
+</BorderPane>

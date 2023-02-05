@@ -2,8 +2,7 @@ package com.github.simulatan;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -24,7 +23,10 @@ public class FxmlDocumentController {
 
 
 	public void handleStartButton(ActionEvent actionEvent) {
-		System.out.println("Hello World! (start)");
+		if (discoverer == null) {
+			System.err.println("No image loaded - shouldn't happen because the button is disabled");
+			return;
+		}
 
 		discoverer.reveal();
 	}
@@ -53,5 +55,6 @@ public class FxmlDocumentController {
 	private void setImage(Image img) {
 		discoverer = new ImageDiscoverer(img);
 		imageView.setImage(discoverer.getDestImage());
+		btnStart.setDisable(false);
 	}
 }

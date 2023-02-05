@@ -16,15 +16,12 @@
             fx:controller="com.github.simulatan.FxmlDocumentController">
     <center>
         <ImageView fx:id="imageView" fitHeight="271.0" fitWidth="552.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-            <image>
-                <Image url="@bild2.jpg" />
-            </image>
         </ImageView>
     </center>
     <bottom>
         <FlowPane fx:id="buttonBar" alignment="CENTER" hgap="5.0" prefHeight="30.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="btnStart" mnemonicParsing="false" onAction="#handleStartButton" text="Start" textAlignment="CENTER" />
+                <Button fx:id="btnStart" mnemonicParsing="false" onAction="#handleStartButton" text="Start" textAlignment="CENTER" disable="true" />
                 <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#handleLoadButton" text="Load">
                     <FlowPane.margin>
                         <Insets />

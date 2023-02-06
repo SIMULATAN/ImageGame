@@ -11,6 +11,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.collections.FXCollections?>
 <?import com.github.simulatan.uncover.UncoverMode?>
+<?import javafx.scene.text.Text?>
 <BorderPane fx:id="borderPane" maxHeight="-Infinity"
             maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
@@ -47,6 +48,17 @@
                     </value>
                 </ComboBox>
             </children>
+            <VBox fx:id="statusWrapper" alignment="CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
+                <BorderPane.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </BorderPane.margin>
+                <Text fx:id="textStatus" text="Status: NOT STARTED" textAlignment="CENTER">
+                    <FlowPane.margin>
+                        <Insets/>
+                    </FlowPane.margin>
+                </Text>
+                <ProgressBar fx:id="progressBar" prefHeight="30.0" prefWidth="200.0" progress="0.0"/>
+            </VBox>
             <BorderPane.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>

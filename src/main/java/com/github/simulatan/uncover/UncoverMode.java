@@ -1,6 +1,7 @@
 package com.github.simulatan.uncover;
 
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
@@ -10,7 +11,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public enum UncoverMode {
-	LEFT_TO_RIGHT(((width, height, pixelReader, pixelWriter) -> {
+	LEFT_TO_RIGHT(((width, height, pixelReader, pixelWriter, progress) -> {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				Color color = pixelReader.getColor(x, y);
@@ -18,10 +19,11 @@ public enum UncoverMode {
 					setPixel(x, y, color, pixelWriter);
 				}
 			}
+			progress.set((double) x / width);
 			Thread.sleep(5000 / width);
 		}
 	})),
-	CIRCULAR_TO_CENTER(((width, height, pixelReader, pixelWriter) -> {
+	CIRCULAR_TO_CENTER(((width, height, pixelReader, pixelWriter, progress) -> {
 		int centerX = width / 2;
 		int centerY = height / 2;
 		int radius = (int) Math.min(centerX / Math.cos(Math.toRadians(45)), centerY / Math.cos(Math.toRadians(45)));
@@ -59,6 +61,7 @@ public enum UncoverMode {
 				}
 			}
 			Thread.sleep(5000 / width);
+			progress.set((double) (radius - r) / radius);
 		}
 
 		// Color the center pixel
@@ -67,7 +70,7 @@ public enum UncoverMode {
 			pixelWriter.setColor(centerX, centerY, centerColor);
 		}
 	})),
-	RANDOM(((width, height, pixelReader, pixelWriter) -> {
+	RANDOM(((width, height, pixelReader, pixelWriter, progress) -> {
 		Set<Integer> drawnPixels = new HashSet<>();
 		for (int i = 0; i < width * height;) {
 			int x = ThreadLocalRandom.current().nextInt(width);
@@ -80,6 +83,7 @@ public enum UncoverMode {
 				}
 				drawnPixels.add(coord);
 				i++;
+				progress.set((double) i / (width * height));
 				Thread.sleep(10000 / (width * height));
 			}
 		}
@@ -95,9 +99,11 @@ public enum UncoverMode {
 		this.uncoverer = uncoverer;
 	}
 
-	public void uncover(int width, int height, PixelReader pixelReader, PixelWriter pixelWriter) {
+	public void uncover(int width, int height, PixelReader pixelReader, PixelWriter pixelWriter, DoubleProperty progress) {
 		try {
-			uncoverer.uncover(width, height, pixelReader, pixelWriter);
+			progress.set(0);
+			uncoverer.uncover(width, height, pixelReader, pixelWriter, progress);
+			progress.set(100);
 		} catch (Exception ignored) {}
 	}
 }

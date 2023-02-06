@@ -1,11 +1,14 @@
 package com.github.simulatan;
 
 import com.github.simulatan.uncover.UncoverMode;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -13,6 +16,8 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 public class FxmlDocumentController {
+
+	private DoubleProperty progress = new SimpleDoubleProperty();
 
 	@FXML
 	private ImageView imageView;
@@ -24,6 +29,8 @@ public class FxmlDocumentController {
 	public Label labelPath;
 	@FXML
 	public ComboBox<UncoverMode> uncoverMode;
+	@FXML
+	public ProgressBar progressBar;
 	private ImageDiscoverer discoverer;
 
 
@@ -33,7 +40,7 @@ public class FxmlDocumentController {
 			return;
 		}
 
-		discoverer.reveal(uncoverMode.getValue());
+		discoverer.reveal(uncoverMode.getValue(), progress);
 	}
 
 
@@ -50,6 +57,8 @@ public class FxmlDocumentController {
 
 		File imageFile = fc.showOpenDialog(null);
 		if (imageFile == null) return;
+
+		this.progressBar.progressProperty().bind(progress);
 
 		labelPath.setText(imageFile.getName());
 

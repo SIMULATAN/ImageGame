@@ -1,6 +1,7 @@
 package com.github.simulatan;
 
 import com.github.simulatan.uncover.UncoverMode;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
@@ -39,12 +40,12 @@ public class ImageDiscoverer {
 		}
 	}
 
-	public void reveal(UncoverMode uncoverMode) {
+	public void reveal(UncoverMode uncoverMode, DoubleProperty progress) {
 		initializeDestImage();
 		if (thread != null) {
 			thread.interrupt();
 		}
-		thread = new Thread(() -> uncoverMode.uncover(width, height, pixelReader, pixelWriter));
+		thread = new Thread(() -> uncoverMode.uncover(width, height, pixelReader, pixelWriter, progress));
 		thread.setDaemon(true);
 		thread.start();
 	}

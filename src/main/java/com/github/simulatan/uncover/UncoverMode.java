@@ -1,5 +1,6 @@
 package com.github.simulatan.uncover;
 
+import javafx.application.Platform;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
@@ -14,7 +15,7 @@ public enum UncoverMode {
 			for (int y = 0; y < height; y++) {
 				Color color = pixelReader.getColor(x, y);
 				if (color.getOpacity() > 0.0) {
-					pixelWriter.setColor(x, y, color);
+					setPixel(x, y, color, pixelWriter);
 				}
 			}
 			Thread.sleep(5000 / width);
@@ -30,14 +31,14 @@ public enum UncoverMode {
 				if (x >= 0 && x < width && y >= 0 && y < height) {
 					Color color = pixelReader.getColor(x, y);
 					if (color.getOpacity() > 0.0) {
-						pixelWriter.setColor(x, y, color);
+						setPixel(x, y, color, pixelWriter);
 					}
 				}
 				y = centerY + r;
 				if (x >= 0 && x < width && y >= 0 && y < height) {
 					Color color = pixelReader.getColor(x, y);
 					if (color.getOpacity() > 0.0) {
-						pixelWriter.setColor(x, y, color);
+						setPixel(x, y, color, pixelWriter);
 					}
 				}
 			}
@@ -46,14 +47,14 @@ public enum UncoverMode {
 				if (x >= 0 && x < width && y >= 0 && y < height) {
 					Color color = pixelReader.getColor(x, y);
 					if (color.getOpacity() > 0.0) {
-						pixelWriter.setColor(x, y, color);
+						setPixel(x, y, color, pixelWriter);
 					}
 				}
 				x = centerX + r;
 				if (x >= 0 && x < width && y >= 0 && y < height) {
 					Color color = pixelReader.getColor(x, y);
 					if (color.getOpacity() > 0.0) {
-						pixelWriter.setColor(x, y, color);
+						setPixel(x, y, color, pixelWriter);
 					}
 				}
 			}
@@ -75,7 +76,7 @@ public enum UncoverMode {
 			if (!drawnPixels.contains(coord)) {
 				Color color = pixelReader.getColor(x, y);
 				if (color.getOpacity() > 0.0) {
-					pixelWriter.setColor(x, y, color);
+					setPixel(x, y, color, pixelWriter);
 				}
 				drawnPixels.add(coord);
 				i++;
@@ -83,6 +84,10 @@ public enum UncoverMode {
 			}
 		}
 	}));
+
+	private static void setPixel(int x, int y, Color color, PixelWriter pixelWriter) {
+		Platform.runLater(() -> pixelWriter.setColor(x, y, color));
+	}
 
 	private final Uncoverer uncoverer;
 
